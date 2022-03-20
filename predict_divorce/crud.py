@@ -7,6 +7,7 @@ from predict_divorce.models import DivorcePredictionRequest
 
 
 def create_divorce_request(db: Session, divorce_request: DivorceQuestions):
+    # todo: научиться подкидывать юзера сюда автоматом, пока хардкод
     db_divorce_request = DivorcePredictionRequest(hate_subject=divorce_request.hate_subject.value,
                                                   happy=divorce_request.happy.value,
                                                   dreams=divorce_request.dreams.value,
@@ -20,7 +21,8 @@ def create_divorce_request(db: Session, divorce_request: DivorceQuestions):
                                                   friends_social=divorce_request.friends_social.value,
                                                   contact=divorce_request.contact.value,
                                                   insult=divorce_request.insult.value,
-                                                  created=datetime.datetime.now())
+                                                  created=datetime.datetime.now(),
+                                                  user_id=1)
     db.add(db_divorce_request)
     db.commit()
     db.refresh(db_divorce_request)

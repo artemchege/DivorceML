@@ -1,6 +1,23 @@
 from enum import Enum
 
 from pydantic import BaseModel, Field
+# from schemas import UserCreated
+
+
+# todo: вынести схемы юзера в корень проекта
+class User(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
+class UserCreated(BaseModel):
+    id: int
+    name: str
+    email: str
+
+    class Config:
+        orm_mode = True
 
 
 class DivorceChoices(Enum):
@@ -27,6 +44,8 @@ class DivorceQuestions(BaseModel):
     contact: DivorceChoices  # 3. When we need it, we can take our discussions with my spouse from the beginning and
     # correct it.
     insult: DivorceChoices  # 34. I can use offensive expressions during our discussions.
+
+    creator: UserCreated
 
     class Config:
         orm_mode = True
