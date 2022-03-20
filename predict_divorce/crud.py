@@ -1,6 +1,7 @@
 import datetime
 
 from sqlalchemy.orm import Session
+from fastapi import HTTPException, status
 
 from predict_divorce.schemas import DivorceQuestions
 from predict_divorce.models import DivorcePredictionRequest
@@ -30,4 +31,14 @@ def create_divorce_request(db: Session, divorce_request: DivorceQuestions):
 
 
 def get_divorce_request(db: Session, divorce_id: int):
-    return db.query(DivorcePredictionRequest).filter(DivorcePredictionRequest.id == divorce_id).first()
+    divorce_request = db.query(DivorcePredictionRequest).filter(DivorcePredictionRequest.id == divorce_id).first()
+    if not divorce_request:
+        raise HTTPException(detail=f'obj with id: {divorce_id} was not found', status_code=status.HTTP_404_NOT_FOUND)
+    return divorce_request
+
+
+def list_divorce_request(db: Session):
+    divorce_requests = db.query(DivorcePredictionRequest).all()
+    if not divorce_requests:
+        raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
+    return divorce_requests
