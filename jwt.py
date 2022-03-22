@@ -33,10 +33,11 @@ def verify_token(token: str) -> TokenData:
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        name: str = payload.get("sub")
+        id: int = payload.get("id")
+        name: str = payload.get("name")
         if name is None:
             raise credentials_exception
-        token_data = TokenData(name=name)
+        token_data = TokenData(name=name, id=id)
     except JWTError:
         raise credentials_exception
 

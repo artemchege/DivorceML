@@ -30,7 +30,7 @@ def get_logged_user(db: Session = Depends(get_db), user: User = Depends(get_curr
 @app.post('/login/', status_code=status.HTTP_200_OK, tags=['auth'])
 def login(login_request: Login, db: Session = Depends(get_db)):
     user = UserModel.get_user_by_name_and_password(name=login_request.name, db=db, password=login_request.password)
-    access_token = create_access_token(data={"sub": user.name})
+    access_token = create_access_token(data={"name": user.name, 'id': user.id})
     return {"access_token": access_token, "token_type": "bearer"}
 
 
