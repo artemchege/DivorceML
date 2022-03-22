@@ -29,17 +29,17 @@ def create_divorce_request(db: Session, divorce_request: DivorceQuestionsCreate,
     return db_divorce_request
 
 
-def get_divorce_request(db: Session, divorce_id: int):
-    # TODO: огрнаичить залогиненным юзером
-    divorce_request = db.query(DivorcePredictionRequest).filter(DivorcePredictionRequest.id == divorce_id).first()
+def list_divorce_requests(db: Session, user: User):
+    divorce_requests = db.query(DivorcePredictionRequest).filter(DivorcePredictionRequest.user_id == user.id).all()
+    if not divorce_requests:
+        raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
+    return divorce_requests
+
+
+def get_divorce_request(db: Session, divorce_id: int, user: User):
+    divorce_request = db.query(DivorcePredictionRequest).filter(DivorcePredictionRequest.id == divorce_id,
+                                                                DivorcePredictionRequest.user_id == user.id).first()
     if not divorce_request:
         raise HTTPException(detail=f'obj with id: {divorce_id} was not found', status_code=status.HTTP_404_NOT_FOUND)
     return divorce_request
 
-
-def list_divorce_request(db: Session):
-    # TODO: огрнаичить залогиненным юзером
-    divorce_requests = db.query(DivorcePredictionRequest).all()
-    if not divorce_requests:
-        raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
-    return divorce_requests

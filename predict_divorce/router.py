@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from predict_divorce.schemas import DivorceQuestionsShow, DivorceQuestionsCreate
 from predict_divorce.schemas import User
-from predict_divorce.crud import create_divorce_request, get_divorce_request, list_divorce_request
+from predict_divorce.crud import create_divorce_request, get_divorce_request, list_divorce_requests
 from predict_divorce.services import get_divorce_prediction
 from jwt import get_current_user
 
@@ -23,13 +23,13 @@ def predict(questions: DivorceQuestionsCreate, db: Session = Depends(get_db), us
     return f'The result is: {prediction}'
 
 
-@router.get('/', response_model=List[DivorceQuestionsShow])
+@router.get('/', response_model=List[DivorceQuestionsCreate])
 def return_divorce_requests(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    divorce_requests = list_divorce_request(db=db)
+    divorce_requests = list_divorce_requests(db=db, user=user)
     return divorce_requests
 
 
 @router.get('/{id}', response_model=DivorceQuestionsShow)
 def return_divorce_request(id: int, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    divorce_request = get_divorce_request(divorce_id=id, db=db)
+    divorce_request = get_divorce_request(divorce_id=id, db=db, user=user)
     return divorce_request
