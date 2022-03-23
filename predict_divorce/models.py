@@ -11,8 +11,6 @@ from hashing import Hash
 class DivorcePredictionRequest(Base):
     __tablename__ = "divorce_prediction_request"
 
-    # TODO: сделать миграцию что юзер обязателен
-
     id = Column(Integer, primary_key=True, index=True)
     created = Column(DateTime(timezone=True), onupdate=func.now())
     hate_subject = Column(Integer)
@@ -28,15 +26,13 @@ class DivorcePredictionRequest(Base):
     friends_social = Column(Integer)
     contact = Column(Integer)
     insult = Column(Integer)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
     creator = relationship('User', back_populates='divorce_prediction_request')
 
 
 class User(Base):
     __tablename__ = "user"
-
-    # TODO: сделать миграцию что unique = True у мыла
 
     id = Column(Integer, primary_key=True, index=True)
     created = Column(DateTime(timezone=True), onupdate=func.now())

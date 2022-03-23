@@ -13,8 +13,6 @@ from jwt import create_access_token, get_current_user
 app = FastAPI()
 app.include_router(predict_divorce_router)
 
-Base.metadata.create_all(engine)
-
 
 @app.post('/user/', status_code=status.HTTP_201_CREATED, response_model=UserCreated, tags=['user'])
 def create_user(user_request: User, db: Session = Depends(get_db)):

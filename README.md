@@ -22,3 +22,8 @@ TODO:
 8. освоить миграции в алхимии 
 9. написать на англ ридми классное 
 10. вынести модель юзера в корень проекта и решить проблему с круговыми импортами https://stackoverflow.com/questions/34421205/sqlalchemy-model-circular-import
+
+Алембик:
+    alembic init migrations
+    alembic revision --autogenerate -m "Initial migrations"
+    alembic upgrade heads 
