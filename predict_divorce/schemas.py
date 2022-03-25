@@ -1,36 +1,8 @@
 from enum import Enum
 
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel
 
-from models import User as UserModel
-from database import get_db
-
-
-# todo: вынести схемы юзера в корень проекта
-class User(BaseModel):
-    name: str
-    email: str
-    password: str
-
-    @root_validator()
-    def validate_that_email_does_not_exists(cls, values):
-        email = values.get('email')
-
-        db = next(get_db())
-        user = db.query(UserModel).filter(UserModel.email == email).first()
-        if user is not None:
-            raise ValueError(f'User with that email: {email} already exists')
-
-        return values
-
-
-class UserCreated(BaseModel):
-    id: int
-    name: str
-    email: str
-
-    class Config:
-        orm_mode = True
+from schemas import UserCreated
 
 
 class DivorceChoices(Enum):

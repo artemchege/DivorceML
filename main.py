@@ -2,8 +2,7 @@ import uvicorn
 from fastapi import FastAPI, status, Depends
 from sqlalchemy.orm import Session
 
-from predict_divorce.schemas import User, UserCreated
-from schemas import Login
+from schemas import Login, User, UserCreated
 from database import get_db
 from crud import create_user_in_db, get_user_by_name
 from predict_divorce.router import router as predict_divorce_router

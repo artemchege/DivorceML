@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from predict_divorce.schemas import DivorceQuestionsShow, DivorceQuestionsCreate
-from predict_divorce.schemas import User
+from schemas import User
 from predict_divorce.crud import create_divorce_request, get_divorce_request, list_divorce_requests
 from predict_divorce.services import get_divorce_prediction
 from jwt import get_current_user
