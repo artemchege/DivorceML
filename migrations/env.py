@@ -71,7 +71,6 @@ def run_migrations_online():
         with context.begin_transaction():
             context.run_migrations()
 
-
 # Очень важно, иначе не заработает автоотслеживание моделей
 alembic_config = config.get_section(config.config_ini_section)
 alembic_config['sqlalchemy.url'] = SQLALCHEMY_DATABASE_URL

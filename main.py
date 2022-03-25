@@ -4,10 +4,10 @@ from sqlalchemy.orm import Session
 
 from predict_divorce.schemas import User, UserCreated
 from schemas import Login
-from database import get_db, Base, engine
+from database import get_db
 from crud import create_user_in_db, get_user_by_name
 from predict_divorce.router import router as predict_divorce_router
-from predict_divorce.models import User as UserModel
+from models import User as UserModel
 from jwt import create_access_token, get_current_user
 
 app = FastAPI()

@@ -2,7 +2,7 @@ from enum import Enum
 
 from pydantic import BaseModel, root_validator
 
-from predict_divorce.models import User as UserModel
+from models import User as UserModel
 from database import get_db
 
 

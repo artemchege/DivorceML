@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy.orm import Session
 
 from predict_divorce.schemas import User as UserSchema
-from predict_divorce.models import User as UserModel
+from models import User as UserModel
 from hashing import Hash
 
 

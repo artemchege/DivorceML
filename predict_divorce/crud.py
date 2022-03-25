@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
 from predict_divorce.schemas import DivorceQuestionsCreate
-from predict_divorce.models import DivorcePredictionRequest, User
+from predict_divorce.models import DivorcePredictionRequest
+from models import User
 
 
 def create_divorce_request(db: Session, divorce_request: DivorceQuestionsCreate, user: User):
