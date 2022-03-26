@@ -1,24 +1,28 @@
 
-Архитектура: 
+## Here we have an FAST API ML application that can predict whether you will be divorced or not based on 13 questions with accuracy 98%. 
 
-1. Апка с разводами. Просто рандом форест 
-2. Апка мамкин саентист. Принимаем таргет и датасет в цсв и сейвит в таблицу результаты каждого метода МЛ: рекол, пресижн, рок аук, аккураси. После сейвит модель куда то и дает способность предсказывать. Модели: рукописная трехслойка, рандом форест, освоить метод соседей. 
+More about my own machine learning research you can read from DivorceResearch notebook in DataScience directory. 
 
-Стек: 
-1. Сделать нагрузочное тестирование.
-2. Сделать фоновые задачи дефолтными средствами, если не получится то через селери. 
-3. Сделать CI/CD на линод  
-4. Сделать докер компос для развертки проекта и базы и прочих зависимостей.
-5. Потренироваться как развернуть базу чтоб при падении контейнера данные не перетиралась.
+We have next questions: 
 
-TODO:
-3. сделать запросы в базу асинх https://fastapi.tiangolo.com/advanced/async-sql-databases/
-4. сделать вью асинк 
-5. замерять производительность каждый раз
-9. написать на англ ридми классное 
-10. вынести модель юзера в корень проекта и решить проблему с круговыми импортами https://stackoverflow.com/questions/34421205/sqlalchemy-model-circular-import
+    1. Hate_subject: my discussion with my spouse is not calm.
+    2. Happy: we're compatible with my spouse about what love should be.
+    3. Dreams: most of our goals for people (children, friends, etc.) are the same.
+    4. Freedom_value: I think that one day in the future, when I look back, I see that my spouse, and I have been in harmony with each other.
+    5. Likes: my spouse and I have similar values in trust.
+    6. Calm_breaks: we're just starting a discussion before I know what's going on.
+    7. Harmony: most of our goals are common to my spouse.
+    8. Roles: my spouse and I have similar ideas about how marriage should be
+    9. Inner_world: I can tell you what kind of stress my spouse is facing in her/his life.
+    10. Current_stress: I know my spouse's basic anxieties.
+    11. Friends_social: I know my spouse very well.
+    12. Contact: when we need it, we can take our discussions with my spouse from the beginning and correct it.
+    13. Insult: I can use offensive expressions during our discussions.
 
-Алембик:
+The result will be an integer. 1 - you will be divorced with 98% chances, 0 - you will not. 
+
+Useful alembic commands:
+
     alembic init migrations
     alembic revision --autogenerate -m "Initial migrations"
     alembic upgrade heads 
