@@ -75,14 +75,6 @@ def run_migrations_online():
         with context.begin_transaction():
             context.run_migrations()
 
-# Очень важно, иначе не заработает автоотслеживание моделей
-# alembic_config = config.get_section(config.config_ini_section)
-# alembic_config['sqlalchemy.url'] = SQLALCHEMY_DATABASE_URL
-# engine = engine_from_config(
-#     alembic_config,
-#     prefix='sqlalchemy.',
-#     poolclass=pool.NullPool)
-
 
 if context.is_offline_mode():
     run_migrations_offline()

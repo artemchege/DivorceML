@@ -20,8 +20,8 @@ class User(Base):
     divorce_prediction_request = relationship('DivorcePredictionRequest', back_populates='creator')
 
     @classmethod
-    def get_user_by_name_and_password(cls, name: str, password: str, db: Session):
-        user = db.query(cls).filter(cls.name == name).first()
+    def get_user_by_email_and_password(cls, email: str, password: str, db: Session):
+        user = db.query(cls).filter(cls.email == email).first()
         if not user:
             raise HTTPException(detail=f'User does not exists', status_code=status.HTTP_400_BAD_REQUEST)
 

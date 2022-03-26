@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI, status, Depends
 from sqlalchemy.orm import Session
 
-from schemas import Login, User, UserCreated
+from schemas import Login, User, UserCreated, Token
 from database import get_db
 from crud import create_user_in_db, get_user_by_name
 from predict_divorce.router import router as predict_divorce_router
@@ -24,9 +24,9 @@ def get_logged_user(db: Session = Depends(get_db), user: User = Depends(get_curr
     return get_user_by_name(db=db, name=user.name)
 
 
-@app.post('/login/', status_code=status.HTTP_200_OK, tags=['auth'])
+@app.post('/login/', status_code=status.HTTP_200_OK, tags=['auth'], response_model=Token)
 def login(login_request: Login, db: Session = Depends(get_db)):
-    user = UserModel.get_user_by_name_and_password(name=login_request.name, db=db, password=login_request.password)
+    user = UserModel.get_user_by_email_and_password(email=login_request.email, db=db, password=login_request.password)
     access_token = create_access_token(data={"name": user.name, 'id': user.id})
     return {"access_token": access_token, "token_type": "bearer"}
 

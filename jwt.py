@@ -1,3 +1,5 @@
+import os
+
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -7,7 +9,7 @@ from jose import JWTError, jwt
 from schemas import TokenData
 
 # JWT settings
-SECRET_KEY = "bf7234b66257ea32f286db2d64de00761b89667a126f25e509a180237aaa54cf"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -18,7 +20,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.utcnow() + timedelta(minutes=10080)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
