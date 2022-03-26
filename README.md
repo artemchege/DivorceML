@@ -3,6 +3,10 @@
 
 More about my own machine learning research you can read from DivorceResearch notebook in DataScience directory. 
 
+Resources:
+- [Kaggle dataset](https://www.kaggle.com/datasets/csafrit2/predicting-divorce)
+- [Backend app/docs](https://divorce-ml.herokuapp.com/redoc)
+
 We have next questions: 
 
     1. Hate_subject: my discussion with my spouse is not calm.
@@ -20,6 +24,14 @@ We have next questions:
     13. Insult: I can use offensive expressions during our discussions.
 
 The result will be an integer. 1 - you will be divorced with 98% chances, 0 - you will not. 
+
+Main stack that were used: 
+* FAST API 
+* SQLAlchemy
+* ML: Scikit-learn/Random Forest Tree
+* Postgres
+* Alembic
+* Pandas + Numpy
 
 Useful alembic commands:
 
