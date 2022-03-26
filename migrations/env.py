@@ -11,6 +11,10 @@ from database import Base, SQLALCHEMY_DATABASE_URL
 # access to the values within the .ini file in use.
 config = context.config
 
+# this will overwrite the ini-file sqlalchemy.url path
+# with the path given in the config of the main code
+config.set_main_option('sqlalchemy.url', SQLALCHEMY_DATABASE_URL)
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -72,12 +76,12 @@ def run_migrations_online():
             context.run_migrations()
 
 # Очень важно, иначе не заработает автоотслеживание моделей
-alembic_config = config.get_section(config.config_ini_section)
-alembic_config['sqlalchemy.url'] = SQLALCHEMY_DATABASE_URL
-engine = engine_from_config(
-    alembic_config,
-    prefix='sqlalchemy.',
-    poolclass=pool.NullPool)
+# alembic_config = config.get_section(config.config_ini_section)
+# alembic_config['sqlalchemy.url'] = SQLALCHEMY_DATABASE_URL
+# engine = engine_from_config(
+#     alembic_config,
+#     prefix='sqlalchemy.',
+#     poolclass=pool.NullPool)
 
 
 if context.is_offline_mode():
