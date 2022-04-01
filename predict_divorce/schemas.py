@@ -6,11 +6,11 @@ from schemas import UserCreated
 
 
 class DivorceChoices(Enum):
-    worst = 1
-    low = 2
-    middle = 3
-    good = 4
-    best = 5
+    worst = 0
+    low = 1
+    middle = 2
+    good = 3
+    best = 4
 
 
 class DivorceQuestionsCreate(BaseModel):
@@ -36,7 +36,11 @@ class DivorceQuestionsCreate(BaseModel):
 
 class DivorceQuestionsShow(DivorceQuestionsCreate):
     creator: UserCreated
+    prediction: str = None
 
     class Config:
         orm_mode = True
 
+
+class PredictionResponse(BaseModel):
+    prediction: str

@@ -8,7 +8,7 @@ from predict_divorce.models import DivorcePredictionRequest
 from models import User
 
 
-def create_divorce_request(db: Session, divorce_request: DivorceQuestionsCreate, user: User):
+def create_divorce_request(db: Session, divorce_request: DivorceQuestionsCreate, user: User, prediction: float):
     db_divorce_request = DivorcePredictionRequest(hate_subject=divorce_request.hate_subject.value,
                                                   happy=divorce_request.happy.value,
                                                   dreams=divorce_request.dreams.value,
@@ -23,7 +23,8 @@ def create_divorce_request(db: Session, divorce_request: DivorceQuestionsCreate,
                                                   contact=divorce_request.contact.value,
                                                   insult=divorce_request.insult.value,
                                                   created=datetime.datetime.now(),
-                                                  user_id=user.id)
+                                                  user_id=user.id,
+                                                  prediction=prediction)
     db.add(db_divorce_request)
     db.commit()
     db.refresh(db_divorce_request)

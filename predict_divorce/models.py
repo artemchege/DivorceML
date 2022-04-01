@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, Float
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
@@ -23,6 +23,7 @@ class DivorcePredictionRequest(Base):
     friends_social = Column(Integer)
     contact = Column(Integer)
     insult = Column(Integer)
+    prediction = Column(Float)
 
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     creator = relationship('User', back_populates='divorce_prediction_request')

@@ -4,7 +4,7 @@ from fastapi import Depends, status, APIRouter
 from sqlalchemy.orm import Session
 
 from database import get_db
-from predict_divorce.schemas import DivorceQuestionsShow, DivorceQuestionsCreate
+from predict_divorce.schemas import DivorceQuestionsShow, DivorceQuestionsCreate, PredictionResponse
 from schemas import User
 from predict_divorce.crud import create_divorce_request, get_divorce_request, list_divorce_requests
 from predict_divorce.services import get_divorce_prediction
@@ -16,14 +16,14 @@ router = APIRouter(
 )
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=PredictionResponse)
 def predict(questions: DivorceQuestionsCreate, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    create_divorce_request(db=db, divorce_request=questions, user=user)
     prediction = get_divorce_prediction(questions)
-    return f'The result is: {prediction}'
+    create_divorce_request(db=db, divorce_request=questions, user=user, prediction=prediction)
+    return {'prediction': prediction}
 
 
-@router.get('/', response_model=List[DivorceQuestionsCreate])
+@router.get('/', response_model=List[DivorceQuestionsShow])
 def return_divorce_requests(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     divorce_requests = list_divorce_requests(db=db, user=user)
     return divorce_requests

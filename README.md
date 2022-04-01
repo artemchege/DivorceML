@@ -38,3 +38,4 @@ Useful alembic commands:
     alembic init migrations
     alembic revision --autogenerate -m "Initial migrations"
     alembic upgrade heads 
+    alembic revision -m "add a column to ..."
