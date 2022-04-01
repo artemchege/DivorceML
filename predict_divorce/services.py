@@ -15,6 +15,6 @@ def get_divorce_prediction(questions: DivorceQuestionsCreate) -> float:
     np_array = np.array(list_of_questions).reshape(1, -1)
     path = ('/'.join(pathlib.Path(__file__).parent.resolve().parts[:-1]) + '/DataScience/divorce.pickle')[1:]
     prediction_model = pickle.load(open(path, "rb"))
-    result = prediction_model.predict_proba(np_array)[0][0]
+    result = prediction_model.predict_proba(np_array)[0][1]
     return round(float(result), 2)
 
