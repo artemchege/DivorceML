@@ -26,5 +26,5 @@ class DivorcePredictionRequest(Base):
     prediction = Column(Float)
 
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    creator = relationship('User', back_populates='divorce_prediction_request')
+    creator = relationship('User', back_populates='divorce_prediction_request', lazy='subquery')
 

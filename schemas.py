@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, root_validator
 
-from database import get_db
+from database import get_sync_db
 from models import User as UserModel
 
 
@@ -29,7 +29,7 @@ class User(BaseModel):
     def validate_that_email_does_not_exists(cls, values):
         email = values.get('email')
 
-        db = next(get_db())
+        db = next(get_sync_db())
         user = db.query(UserModel).filter(UserModel.email == email).first()
         if user is not None:
             raise ValueError(f'User with that email: {email} already exists')
