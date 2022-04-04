@@ -28,12 +28,9 @@ class User(BaseModel):
     @root_validator()
     def validate_that_email_does_not_exists(cls, values):
         email = values.get('email')
-
-        db = next(get_sync_db())
-        user = db.query(UserModel).filter(UserModel.email == email).first()
-        if user is not None:
+        exists = UserModel.check_if_user_with_given_email_exists(email=email)
+        if exists:
             raise ValueError(f'User with that email: {email} already exists')
-
         return values
 
 

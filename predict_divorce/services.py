@@ -9,7 +9,7 @@ warnings.filterwarnings('ignore')  # disable: X does not have valid feature name
 
 
 def get_divorce_prediction(questions: DivorceQuestionsCreate) -> float:
-    """ Transform users input and return result: probability of WON'T BE divorced """
+    """ Transform users input and return result: probability of BE divorced """
 
     list_of_questions = [value.value for name, value in questions]
     np_array = np.array(list_of_questions).reshape(1, -1)
