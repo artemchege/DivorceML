@@ -5,6 +5,7 @@ argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
 asgiref==3.5.0
 asttokens==2.0.5
+asyncpg==0.24.0
 attrs==21.4.0
 backcall==0.2.0
 bcrypt==3.2.0
@@ -20,6 +21,7 @@ entrypoints==0.4
 executing==0.8.3
 fastapi==0.75.0
 fonttools==4.29.1
+greenlet==1.1.2
 h11==0.13.0
 idna==3.3
 importlib-metadata==4.11.3
