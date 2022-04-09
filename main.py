@@ -6,11 +6,13 @@ from schemas import Login, User, UserCreated, Token, TokenData
 from database import get_sync_db
 from crud import create_user_in_db, get_user_by_id
 from predict_divorce.router import router as predict_divorce_router
+from moms_scientist.router import router as moms_scientist_router
 from models import User as UserModel
 from jwt import create_access_token, get_current_user
 
 app = FastAPI()
 app.include_router(predict_divorce_router)
+app.include_router(moms_scientist_router)
 
 
 @app.post('/user/', status_code=status.HTTP_201_CREATED, response_model=UserCreated, tags=['user'])

@@ -18,6 +18,7 @@ class User(Base):
     password = Column(String)
 
     divorce_prediction_request = relationship('DivorcePredictionRequest', back_populates='creator')
+    user_file = relationship('UserFile', back_populates='file_creator')
 
     @classmethod
     def get_user_by_email_and_password(cls, email: str, password: str, db: Session):

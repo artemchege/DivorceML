@@ -130,3 +130,6 @@ dmypy.json
 .pyre/
 notes.md
 post.lua
+
+# my own igmnores
+moms_scientist/csv_files/
