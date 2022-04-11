@@ -1,7 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, root_validator
 
-from database import get_sync_db
 from models import User as UserModel
 
 

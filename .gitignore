@@ -133,3 +133,6 @@ post.lua
 
 # my own igmnores
 moms_scientist/csv_files/
+moms_scientist/trained_models/
+Pipfile
+Pipfile.lock
