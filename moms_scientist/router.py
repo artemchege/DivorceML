@@ -8,12 +8,18 @@ from moms_scientist.utils import FileHandlerCSV
 from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles
 from moms_scientist.crud import list_user_files
 from moms_scientist.tasks import create_ml_models
+from moms_scientist.handlers import register_handlers
 
 
 router = APIRouter(
     tags=['moms_scientist'],
     prefix='/moms_scientist'
 )
+
+
+@router.on_event("startup")
+async def startup_event():
+    register_handlers()
 
 
 @router.post("/upload_csv", summary="Save csv file", response_model=SuccessResponse)

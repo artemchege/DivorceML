@@ -1,5 +1,6 @@
 from moms_scientist.ml import list_of_ml_handlers
-from moms_scientist.utils import PathHandler, PickleModel
+from moms_scientist.utils import PathHandler
+from moms_scientist.event import Event
 
 
 def create_ml_models(target_column: str, user_file_id: int) -> None:
@@ -9,6 +10,13 @@ def create_ml_models(target_column: str, user_file_id: int) -> None:
         path = PathHandler.get_user_path_folder(unique_int=user_file_id, folder='trained_models',
                                                 filename=f'{model.ml_model_name}.pickle')
 
-        # todo: write to db
-
-        PickleModel.pickle_python_object(python_object=best_model, path=path)
+        data = {
+            'name': model.ml_model_name,
+            'precision': precision,
+            'recall': recall,
+            'accuracy': score,
+            'path': path,
+            'user_file_id': user_file_id,
+            'best_model': best_model
+        }
+        Event.post_event(event_type='model_trained', data=data)

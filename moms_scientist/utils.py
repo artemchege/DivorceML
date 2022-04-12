@@ -96,5 +96,6 @@ class PickleModel:
     @staticmethod
     def unpickle_python_object():
         """ Get python object from files """
+
         # todo: later when predicting
         pass
