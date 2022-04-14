@@ -42,7 +42,6 @@ async def list_divorce_requests(user: User):
 
             if not divorce_requests:
                 raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
-
             return divorce_requests
 
 
