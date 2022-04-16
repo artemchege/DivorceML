@@ -25,6 +25,8 @@ SQLALCHEMY_DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}" \
 sync_engine = create_engine(SQLALCHEMY_DATABASE_URL, )
 sync_session_local = sessionmaker(bind=sync_engine, autocommit=False, autoflush=False,)
 
+dsn = f'dbname = {POSTGRES_DB} user = {POSTGRES_USER} password = {POSTGRES_PASSWORD} host = {POSTGRES_HOST}'
+
 Base = declarative_base()
 
 

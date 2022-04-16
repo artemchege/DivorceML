@@ -134,5 +134,6 @@ post.lua
 # my own igmnores
 moms_scientist/csv_files/
 moms_scientist/trained_models/
+test_async.py
 Pipfile
 Pipfile.lock
