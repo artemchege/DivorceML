@@ -1,5 +1,5 @@
 
-class Event:
+class Observer:
     """ Implementation of observer pattern, event handling """
 
     subscribers = dict()
@@ -11,8 +11,8 @@ class Event:
         cls.subscribers[event_type].append(fn)
 
     @classmethod
-    def post_event(cls, event_type: str, data: dict):
+    async def post_event(cls, event_type: str, data: dict):
         if event_type not in cls.subscribers:
             return
         for fn in cls.subscribers[event_type]:
-            fn(data)
+            await fn(data)

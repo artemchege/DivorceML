@@ -37,5 +37,6 @@ async def list_csv(user: TokenData = Depends(get_current_user)):
 
 @router.post("/train_models", summary="Train models", response_model=SuccessResponse)
 def train_models(train: TrainModels, background_tasks: BackgroundTasks, user: TokenData = Depends(get_current_user)):
-    background_tasks.add_task(create_ml_models, target_column=train.target_column, user_file_id=train.user_file_id)
+    background_tasks.add_task(create_ml_models, target_column=train.target_column, user_file_id=train.user_file_id,
+                              user_id=user.id)
     return {'success': True}

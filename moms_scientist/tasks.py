@@ -1,9 +1,9 @@
 from moms_scientist.ml import list_of_ml_handlers
 from moms_scientist.utils import PathHandler
-from moms_scientist.event import Event
+from moms_scientist.observer import Observer
 
 
-def create_ml_models(target_column: str, user_file_id: int) -> None:
+async def create_ml_models(target_column: str, user_file_id: int, user_id: int) -> None:
     for ml_handler in list_of_ml_handlers:
         model = ml_handler(target_column=target_column, user_file_id=user_file_id)
         best_model, score, precision, recall = model.get_best_model()
@@ -17,6 +17,7 @@ def create_ml_models(target_column: str, user_file_id: int) -> None:
             'accuracy': score,
             'path': path,
             'user_file_id': user_file_id,
-            'best_model': best_model
+            'best_model': best_model,
+            'user_id': user_id
         }
-        Event.post_event(event_type='model_trained', data=data)
+        await Observer.post_event(event_type='model_trained', data=data)

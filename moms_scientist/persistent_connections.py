@@ -1,6 +1,5 @@
 import asyncio
 import aiopg
-import json
 
 from fastapi import APIRouter, HTTPException
 from starlette.endpoints import WebSocketEndpoint
@@ -22,32 +21,16 @@ class WebSocketConnection(WebSocketEndpoint):
         self.loop = asyncio.get_event_loop()
         self.websocket = {}
 
-    async def listen(self, conn, channel):
-        """ Listen PostgresSQL channel and send messages to the socket """
-
-        async with conn.cursor() as cur:
-            await cur.execute("LISTEN {0}".format(channel))
-            while self.connected:
-                msg = await conn.notifies.get()
-                payload = json.loads(msg.payload)
-                await self.websocket.send_json(data=payload)
-
     async def db_events(self, channel: str):
-        """ Place where we get async DB connection  """
+        """ Subscribe to DB LISTEN/NOTIFY events, translate them into the socket"""
 
         async with aiopg.create_pool(dsn) as pool:
             async with pool.acquire() as conn:
-                await asyncio.gather(self.listen(conn=conn, channel=channel))
-
-    async def on_receive(self, websocket: WebSocket, data: dict):
-        """ Hook when client send message to the socket """
-
-        channel = data.get('channel')
-
-        if self.has_permission(headers=dict(websocket.headers), channel=channel):
-            asyncio.ensure_future(self.db_events(channel=channel), loop=self.loop)
-        else:
-            await websocket.close()
+                async with conn.cursor() as cur:
+                    await cur.execute("LISTEN channel{0}".format(channel))
+                    while self.connected:
+                        msg = await conn.notifies.get()
+                        await self.websocket.send_text(data=msg.payload)
 
     async def on_connect(self, websocket: WebSocket):
         """ On connect hook, accept all connections """
@@ -56,9 +39,21 @@ class WebSocketConnection(WebSocketEndpoint):
         self.connected = True
         self.websocket = websocket
 
+    async def on_receive(self, websocket: WebSocket, data: dict):
+        """ Hook when client send message to the socket, check that user may connect to chosen room """
+
+        channel = data.get('channel')
+
+        if self.has_permission(headers=dict(websocket.headers), channel=channel):
+            await self.websocket.send_text('you are connected')
+            await self.db_events(channel)
+        else:
+            await self.on_close()
+
     async def on_close(self):
         """ On close hook """
 
+        await self.websocket.send_text('you were disconnected')
         self.connected = False
         self.websocket.close()
 
@@ -70,5 +65,5 @@ class WebSocketConnection(WebSocketEndpoint):
             token = headers.get('authorization').split(' ')[1]
             token_data = verify_token(token)
             return True if str(token_data.id) == channel else False
-        except (KeyError, IndexError, HTTPException):
+        except (KeyError, IndexError, HTTPException, AttributeError):
             return False

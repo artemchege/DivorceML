@@ -1,13 +1,17 @@
-from fastapi import HTTPException, UploadFile
 import os
 import shutil
 from pathlib import Path
 from abc import ABC, abstractmethod
 import pickle
+from typing import Any
+import asyncpg
+import asyncio
 
+from fastapi import HTTPException, UploadFile
+
+from database import SQLALCHEMY_DATABASE_URL
 from moms_scientist.models import UserFile
 from schemas import TokenData
-
 from moms_scientist.crud import crate_user_file
 
 
@@ -99,3 +103,79 @@ class PickleModel:
 
         # todo: later when predicting
         pass
+
+
+class BroadcastBackend(ABC):
+    """ Interface for broadcasting """
+
+    @abstractmethod
+    async def connect(self) -> None:
+        pass
+
+    @abstractmethod
+    async def disconnect(self) -> None:
+        pass
+
+    @abstractmethod
+    async def subscribe(self, group: str) -> None:
+        pass
+
+    @abstractmethod
+    async def unsubscribe(self, group: str) -> None:
+        pass
+
+    @abstractmethod
+    async def publish(self, channel: str, message: Any) -> None:
+        pass
+
+    @abstractmethod
+    async def next_published(self):
+        pass
+
+
+class Message:
+    def __init__(self, channel: str, message: str) -> None:
+        self.channel = channel
+        self.message = message
+
+    def __eq__(self, other: object) -> bool:
+        return (
+            isinstance(other, Message)
+            and self.channel == other.channel
+            and self.message == other.message
+        )
+
+    def __str__(self) -> str:
+        return f"Event(channel={self.channel}, message={self.message})"
+
+
+class PostgresBroadcast(BroadcastBackend):
+    """ PostgresSql implementation of broadcasting """
+
+    def __init__(self, url: str = SQLALCHEMY_DATABASE_URL):
+        self._url = url
+
+    async def connect(self) -> None:
+        self._conn = await asyncpg.connect(self._url)
+        self._listen_queue: asyncio.Queue = asyncio.Queue()
+
+    async def disconnect(self) -> None:
+        await self._conn.close()
+
+    async def subscribe(self, channel: str) -> None:
+        await self._conn.add_listener(channel, self._listener)
+
+    async def unsubscribe(self, channel: str) -> None:
+        await self._conn.remove_listener(channel, self._listener)
+
+    async def publish(self, user_id: str, message: str) -> None:
+        channel = f'channel{user_id}'
+        await self._conn.execute("SELECT pg_notify($1, $2);", channel, message)
+
+    def _listener(self, *args: Any) -> None:
+        connection, pid, channel, payload = args
+        event = Message(channel=channel, message=payload)
+        self._listen_queue.put_nowait(event)
+
+    async def next_published(self) -> Message:
+        return await self._listen_queue.get()
