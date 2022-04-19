@@ -50,6 +50,14 @@ async def get_user_file(user_file_id: int, user_id: int) -> UserFile:
             return user_file
 
 
+def check_file_not_unique(user_id: int, filename: str) -> bool:
+    """ Check that user does not have that file already uploaded """
+
+    db = next(get_sync_db())
+    file = db.query(UserFile).filter(UserFile.user_id == user_id, UserFile.path.contains(filename)).first()
+    return True if file else False
+
+
 def create_trained_model(name: str, precision: float, recall: float, accuracy: float, path: str, user_file_id: int) \
         -> TrainedModel:
     """ Create TrainedModel obj """

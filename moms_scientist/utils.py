@@ -12,7 +12,7 @@ from fastapi import HTTPException, UploadFile
 from database import SQLALCHEMY_DATABASE_URL
 from moms_scientist.models import UserFile
 from schemas import TokenData
-from moms_scientist.crud import crate_user_file
+from moms_scientist.crud import crate_user_file, check_file_not_unique
 
 
 class PathHandler:
@@ -68,7 +68,8 @@ class FileHandlerCSV(FileHandler, PathHandler):
 
     def _validate_file(self) -> None:
 
-        # todo: validate that row in db does not exists
+        if check_file_not_unique(filename=self.file.filename, user_id=self.user.id):
+            raise HTTPException(status_code=406, detail=f"File with that name already exists for user: {self.user.id}")
 
         if self.file.filename[-4:] != '.csv':
             raise HTTPException(status_code=406, detail="Format of the file is unacceptable. You must provide csv file")
