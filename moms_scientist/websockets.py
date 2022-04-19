@@ -19,7 +19,7 @@ class WebSocketConnection(WebSocketEndpoint):
         super().__init__(scope, receive, send)
         self.connected = False
         self.loop = asyncio.get_event_loop()
-        self.websocket = {}
+        self.websocket: WebSocket
 
     async def db_events(self, channel: str):
         """ Subscribe to DB LISTEN/NOTIFY events, translate them into the socket"""
@@ -55,7 +55,7 @@ class WebSocketConnection(WebSocketEndpoint):
 
         await self.websocket.send_text('you were disconnected')
         self.connected = False
-        self.websocket.close()
+        await self.websocket.close()
 
     @staticmethod
     def has_permission(headers: dict, channel: str) -> bool:

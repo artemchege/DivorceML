@@ -25,21 +25,29 @@ async def list_user_files(user_id: int):
     async with async_session_local() as session:
         async with session.begin():
             db_request = await session.execute(select(UserFile).where(UserFile.user_id == user_id))
-            divorce_requests = db_request.scalars().all()
+            user_files = db_request.scalars().all()
 
-            if not divorce_requests:
+            if not user_files:
                 raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
 
-            return divorce_requests
+            return user_files
 
 
-def get_user_file(user_file_id: int) -> UserFile:
+async def get_user_file(user_file_id: int, user_id: int) -> UserFile:
     """ Get particular UserFile obj that belongs to user """
 
-    # todo: проверить что если такого файла не будет
-    db = next(get_sync_db())
-    user_file = db.query(UserFile).filter(UserFile.id == user_file_id).first()
-    return user_file
+    async with async_session_local() as session:
+        async with session.begin():
+            db_request = await session.execute(select(UserFile).where(UserFile.id == user_file_id,
+                                                                      UserFile.user_id == user_id))
+
+            user_file = db_request.one_or_none()
+            if user_file is not None:
+                (user_file,) = user_file
+            else:
+                raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
+
+            return user_file
 
 
 def create_trained_model(name: str, precision: float, recall: float, accuracy: float, path: str, user_file_id: int) \

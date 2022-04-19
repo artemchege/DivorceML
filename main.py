@@ -1,3 +1,5 @@
+import asyncio
+
 import aiohttp
 
 import uvicorn
@@ -9,7 +11,7 @@ from database import get_sync_db
 from crud import create_user_in_db, get_user_by_id
 from predict_divorce.router import router as predict_divorce_router
 from moms_scientist.router import router as moms_scientist_router
-from moms_scientist.persistent_connections import router as moms_scientist_persistent_router
+from moms_scientist.websockets import router as moms_scientist_persistent_router
 from models import User as UserModel
 from jwt import create_access_token, get_current_user
 
