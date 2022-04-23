@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -103,7 +104,7 @@ def create_trained_model(name: str, precision: float, recall: float, accuracy: f
     return trained_model
 
 
-def list_trained_models(user_file_id: int, user_id: int):
+def list_trained_models(user_file_id: int, user_id: int) -> List[TrainedModel]:
     """ List trained models for selected user_file_id, restrict with requested user_id """
 
     db = next(get_sync_db())
@@ -113,3 +114,16 @@ def list_trained_models(user_file_id: int, user_id: int):
         raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
 
     return trained_models
+
+
+def get_trained_model_for_user(model_id: int, user_id: int) -> TrainedModel:
+    """ Get trained model by an id """
+
+    db = next(get_sync_db())
+    trained_model = db.query(TrainedModel).filter(TrainedModel.id == model_id,
+                                                  TrainedModel.user_file_trained_model.has(user_id=user_id)).first()
+
+    if not trained_model:
+        raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
+
+    return trained_model

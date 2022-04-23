@@ -2,12 +2,14 @@ from typing import List
 
 from fastapi import File, UploadFile, Depends, APIRouter, BackgroundTasks, HTTPException
 
+from moms_scientist.ml import SkitLearnMLHandler
 from schemas import TokenData
 from jwt import get_current_user
 from moms_scientist.utils import FileHandlerCSV
-from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles, TrainedModels, UserFile
+from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles, TrainedModels, UserFile, \
+    StringResponse
 from moms_scientist.crud import list_user_files, get_user_file_for_user, list_trained_models, \
-    check_user_file_belongs_to_user
+    check_user_file_belongs_to_user, get_trained_model_for_user
 from moms_scientist.tasks import create_ml_models
 from moms_scientist.handlers import register_handlers
 
@@ -63,3 +65,11 @@ def train_models(status: bool = Depends(start_background_task)):
 def train_results(user_file_id: UserFile, user: TokenData = Depends(get_current_user)):
     trained_models = list_trained_models(user_file_id=user_file_id.user_file_id, user_id=user.id)
     return trained_models
+
+
+@router.post("/get_prediction/{model_id}", summary="Get prediction", response_model=StringResponse)
+def get_prediction(model_id: int, user: TokenData = Depends(get_current_user), file: UploadFile = File(...)):
+    trained_model = get_trained_model_for_user(model_id=model_id, user_id=user.id)
+    predictions = SkitLearnMLHandler.get_predictions(file=file, trained_model=trained_model)
+    return {'predictions': predictions}
+

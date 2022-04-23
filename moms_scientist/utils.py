@@ -99,11 +99,10 @@ class PickleModel:
             pickle.dump(python_object, file)
 
     @staticmethod
-    def unpickle_python_object():
+    def unpickle_python_object(path: str):
         """ Get python object from files """
 
-        # todo: later when predicting
-        pass
+        return pickle.load(open(path, "rb"))
 
 
 class BroadcastBackend(ABC):

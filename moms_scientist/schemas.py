@@ -9,6 +9,10 @@ class SuccessResponse(BaseModel):
     success: bool
 
 
+class StringResponse(BaseModel):
+    predictions: list
+
+
 class ShowUploadedFiles(BaseModel):
     id: int
     name: str
@@ -40,6 +44,7 @@ class TrainModels(BaseModel):
 
 
 class TrainedModels(BaseModel):
+    id: int
     name: str
     accuracy: float
     precision: float

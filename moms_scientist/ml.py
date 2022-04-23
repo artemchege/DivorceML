@@ -1,10 +1,13 @@
+import json
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import precision_score, recall_score
 from sklearn.model_selection import train_test_split, GridSearchCV
+from starlette.datastructures import UploadFile
 
 from moms_scientist.crud import get_user_file
+from moms_scientist.utils import PickleModel
 
 
 class SkitLearnMLHandler:
@@ -62,6 +65,17 @@ class SkitLearnMLHandler:
         y_pred = model.predict(x_test)
         return recall_score(y_test, y_pred)
 
+    @staticmethod
+    def get_predictions(file: UploadFile, trained_model) -> list:
+        csv = pd.read_csv(file.file, sep=';')
+        model = PickleModel.unpickle_python_object(path=trained_model.path)
+        # optimize later
+        prediction_list = model.predict_proba(csv).tolist()
+        prediction_str = json.dumps(prediction_list)
+        prediction_json = json.loads(prediction_str)
+
+        return prediction_json
+
 
 class RandomForest(SkitLearnMLHandler):
     ml_model_name = 'random_forest_tree'
@@ -79,9 +93,6 @@ class RandomForest(SkitLearnMLHandler):
 class KNeighbors(SkitLearnMLHandler):
     ml_model_name = 'k_neighbors'
 
-    def get_best_model(self) -> tuple:
-        return super().get_best_model()
-
     @property
     def classifier(self):
         return KNeighborsClassifier
@@ -92,4 +103,4 @@ class KNeighbors(SkitLearnMLHandler):
                 'metric': ['euclidean', 'manhattan']}
 
 
-list_of_ml_handlers = (RandomForest, KNeighbors,)
+list_of_ml_handlers = [RandomForest, KNeighbors, ]
