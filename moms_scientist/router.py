@@ -6,7 +6,8 @@ from schemas import TokenData
 from jwt import get_current_user
 from moms_scientist.utils import FileHandlerCSV
 from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles, TrainedModels, UserFile
-from moms_scientist.crud import list_user_files, get_user_file, list_trained_models, check_user_file_belongs_to_user
+from moms_scientist.crud import list_user_files, get_user_file_for_user, list_trained_models, \
+    check_user_file_belongs_to_user
 from moms_scientist.tasks import create_ml_models
 from moms_scientist.handlers import register_handlers
 
@@ -36,7 +37,7 @@ async def list_files(user: TokenData = Depends(get_current_user)):
 
 @router.get("/get_csv/{id}", summary="Retrieve uploaded csv", response_model=ShowUploadedFiles)
 async def retrieve_file(id: int, user: TokenData = Depends(get_current_user)):
-    uploaded_file = await get_user_file(user_id=user.id, user_file_id=id)
+    uploaded_file = await get_user_file_for_user(user_id=user.id, user_file_id=id)
     return uploaded_file
 
 
@@ -55,7 +56,7 @@ def start_background_task(train: TrainModels, background_tasks: BackgroundTasks,
 
 @router.post("/train_models", summary="Train models", response_model=SuccessResponse)
 def train_models(status: bool = Depends(start_background_task)):
-    return {'status': status}
+    return {'success': status}
 
 
 @router.post("/trained_models", summary="Trained models", response_model=List[TrainedModels])

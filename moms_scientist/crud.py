@@ -33,7 +33,7 @@ async def list_user_files(user_id: int):
             return user_files
 
 
-async def get_user_file(user_file_id: int, user_id: int) -> UserFile:
+async def get_user_file_for_user(user_file_id: int, user_id: int) -> UserFile:
     """ Get particular UserFile obj that belongs to user """
 
     async with async_session_local() as session:
@@ -48,6 +48,14 @@ async def get_user_file(user_file_id: int, user_id: int) -> UserFile:
                 raise HTTPException(detail=f'objs were not found', status_code=status.HTTP_404_NOT_FOUND)
 
             return user_file
+
+
+def get_user_file(user_file_id: int) -> UserFile:
+    """ Get user file using only an id """
+
+    db = next(get_sync_db())
+    file = db.query(UserFile).filter(UserFile.id == user_file_id).first()
+    return file
 
 
 def check_user_file_exists(user_file_id: int) -> bool:

@@ -14,7 +14,7 @@ async def handle_model_trained(data: dict) -> None:
 
     broadcast = PostgresBroadcast()
     await broadcast.connect()
-    await broadcast.publish(user_id=str(data['user_id']), message=f'Model {data["name"]} was created for user_file_id'
+    await broadcast.publish(user_id=str(data['user_id']), message=f'Model {data["name"]} was created for user_file_id '
                                                                   f'{data["user_file_id"]}')
 
 
