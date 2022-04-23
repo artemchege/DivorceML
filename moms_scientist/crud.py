@@ -58,6 +58,14 @@ def check_user_file_exists(user_file_id: int) -> bool:
     return False if not file else True
 
 
+def check_user_file_belongs_to_user(user_file_id: int, user_id: int) -> bool:
+    """ Check that user is creator of given user_file_id """
+
+    db = next(get_sync_db())
+    file = db.query(UserFile).filter(UserFile.id == user_file_id, UserFile.user_id == user_id).first()
+    return False if not file else True
+
+
 def check_file_not_unique(user_id: int, filename: str) -> bool:
     """ Check that user does not have that file already uploaded """
 

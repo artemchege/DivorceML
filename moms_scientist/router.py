@@ -1,15 +1,14 @@
 from typing import List
 
-from fastapi import File, UploadFile,  Depends, APIRouter, BackgroundTasks
+from fastapi import File, UploadFile, Depends, APIRouter, BackgroundTasks, HTTPException
 
 from schemas import TokenData
 from jwt import get_current_user
 from moms_scientist.utils import FileHandlerCSV
 from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles, TrainedModels, UserFile
-from moms_scientist.crud import list_user_files, get_user_file, list_trained_models
+from moms_scientist.crud import list_user_files, get_user_file, list_trained_models, check_user_file_belongs_to_user
 from moms_scientist.tasks import create_ml_models
 from moms_scientist.handlers import register_handlers
-
 
 router = APIRouter(
     tags=['moms_scientist'],
@@ -41,15 +40,25 @@ async def retrieve_file(id: int, user: TokenData = Depends(get_current_user)):
     return uploaded_file
 
 
+def start_background_task(train: TrainModels, background_tasks: BackgroundTasks,
+                          user: TokenData = Depends(get_current_user)) -> bool:
+    """ Dependency that checks some permission and starts the task """
+
+    if check_user_file_belongs_to_user(user_file_id=train.user_file_id, user_id=user.id):
+        background_tasks.add_task(create_ml_models, target_column=train.target_column, user_file_id=train.user_file_id,
+                                  user_id=user.id)
+        return True
+    else:
+        raise HTTPException(detail=f'you do not have permission to work with user_file_id={train.user_file_id}',
+                            status_code=401)
+
+
 @router.post("/train_models", summary="Train models", response_model=SuccessResponse)
-def train_models(train: TrainModels, background_tasks: BackgroundTasks, user: TokenData = Depends(get_current_user)):
-    background_tasks.add_task(create_ml_models, target_column=train.target_column, user_file_id=train.user_file_id,
-                              user_id=user.id)
-    return {'success': True}
+def train_models(status: bool = Depends(start_background_task)):
+    return {'status': status}
 
 
 @router.post("/trained_models", summary="Trained models", response_model=List[TrainedModels])
 def train_results(user_file_id: UserFile, user: TokenData = Depends(get_current_user)):
     trained_models = list_trained_models(user_file_id=user_file_id.user_file_id, user_id=user.id)
     return trained_models
-
