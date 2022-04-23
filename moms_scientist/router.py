@@ -70,6 +70,9 @@ def train_results(user_file_id: UserFile, user: TokenData = Depends(get_current_
 @router.post("/get_prediction/{model_id}", summary="Get prediction", response_model=StringResponse)
 def get_prediction(model_id: int, user: TokenData = Depends(get_current_user), file: UploadFile = File(...)):
     trained_model = get_trained_model_for_user(model_id=model_id, user_id=user.id)
-    predictions = SkitLearnMLHandler.get_predictions(file=file, trained_model=trained_model)
+    try:
+        predictions = SkitLearnMLHandler.get_predictions(file=file, trained_model=trained_model)
+    except ValueError as e:
+        raise HTTPException(detail=str(e), status_code=400)
     return {'predictions': predictions}
 
