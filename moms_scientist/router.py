@@ -5,8 +5,8 @@ from fastapi import File, UploadFile,  Depends, APIRouter, BackgroundTasks
 from schemas import TokenData
 from jwt import get_current_user
 from moms_scientist.utils import FileHandlerCSV
-from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles
-from moms_scientist.crud import list_user_files, get_user_file
+from moms_scientist.schemas import SuccessResponse, TrainModels, ShowUploadedFiles, TrainedModels, UserFile
+from moms_scientist.crud import list_user_files, get_user_file, list_trained_models
 from moms_scientist.tasks import create_ml_models
 from moms_scientist.handlers import register_handlers
 
@@ -46,3 +46,10 @@ def train_models(train: TrainModels, background_tasks: BackgroundTasks, user: To
     background_tasks.add_task(create_ml_models, target_column=train.target_column, user_file_id=train.user_file_id,
                               user_id=user.id)
     return {'success': True}
+
+
+@router.post("/trained_models", summary="Trained models", response_model=List[TrainedModels])
+def train_results(user_file_id: UserFile, user: TokenData = Depends(get_current_user)):
+    trained_models = list_trained_models(user_file_id=user_file_id.user_file_id, user_id=user.id)
+    return trained_models
+
