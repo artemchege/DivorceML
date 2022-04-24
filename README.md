@@ -2,12 +2,12 @@
 # This backend consists of two main parts that live in separate app folders. 
 
 <h2 align="center">
-First part is Prediction Divorce app. 
+First part is the Prediction Divorce app. 
 </h2>
 
- Here we have an FAST API ML application that can predict whether you will be divorced or not based on 13 questions with accuracy 98%. 
+Here we have an FASTAPI ML application that can predict whether you will be divorced or not based on 13 questions with accuracy of 98%. 
 
-You can read More about my own machine learning research (EDA) from DivorceResearch notebook in [DataScience directory](/DataScience). 
+You can read more about my own machine learning research (EDA) from DivorceResearch notebook in [DataScience directory](/DataScience). 
 
 Resources:
 - [Kaggle dataset](https://www.kaggle.com/datasets/csafrit2/predicting-divorce)
@@ -30,39 +30,37 @@ We have next questions:
     12. Contact: when we need it, we can take our discussions with my spouse from the beginning and correct it.
     13. Insult: I can use offensive expressions during our discussions.
 
-Answers to these questions are numbers from 0 (Definitely no) to 4 (Definitely YES). 
+Answers to these questions are numbers from 0 (Definitely NO) to 4 (Definitely YES). 
 
 The result will be a float value. Maximum is 1 - you will be divorced, 0 - you will not with 98% chances in both cases. 
-The result will be produced by trained machine learning model named Random Forest Tree. 
+The result will be produced by trained machine learning model that named Random Forest Tree. 
 
 <h2 align="center">
-Second app is Mom's scientist app. 
+Second app is the Mom's scientist app. 
 </h2>
 
-This app is continuation of the previous one. The main key point is: **what if user itself want to submit his own files and try to make some prediction?**
+This app is logical continuation of the previous one. The main key point is: **what if user itself want to submit his own files and try to make some prediction?**
 
 
-I'm willing to give an user such opportunity.
+I'm willing to give to user such opportunity.
 No need for low level knowledge, mathematics degree or PhD in Data Science. Just submit a csv, set target column and predict new outcomes in just a matter of 5 minutes. 
-This app may be used for a wide range of tasks.
-Using my app you will be able to predict the future, some kinds of outcomes with some degree of accuracy using ML algorithms under the hood. 
+This app may be used for a wide range of tasks, using it you will be able to predict the future, some kinds of outcomes with some degree of accuracy using ML algorithms under the hood. 
 
-On current stage Mom's scientist app train two different type of ML models: Random forest and K-neighbours. The architecture of the app is made to be highly scalable in introducing new ML models, including neural nets (might be released later). 
+On current stage Mom's scientist app trains two different type of ML models: Random forest and K-neighbours. The architecture of the app is made to be highly scalable in introducing new ML models, including neural nets (might be released later). 
 
 Good to know or some constraints: 
 1. On current stage app works only with csv files. 
-2. Csv files values must be separated by comma. 
-3. [EDA](https://cloud.google.com/blog/products/ai-machine-learning/building-ml-models-with-eda-feature-selection) is very important. 60% of success lies in EDA and preparing data for ML models. usually EDA and data cleaning is made by [Pandas](https://pandas.pydata.org). Let's suppose you are novice in data science. 
-Before submitting files to train ML models you must be sure that you data does not have null values, if you have - [fill](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html) it with 0 or [median](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.median.html) values (the last is much more preferable). 
-Moreover you must get rid of dirty information, columns with data that definitely will not help in predicting results, but opposite (for example names of Titanic passengers if we want to predict will a passenger survive or no). And the last you must get rid of categorical values, [get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html) is right choice for you.
+2. Csv file values must be separated by commas. 
+3. [EDA](https://cloud.google.com/blog/products/ai-machine-learning/building-ml-models-with-eda-feature-selection) is very important step. Huge amount of success lies in EDA and preparing data for ML models. Usually EDA and data cleaning is made by [Pandas](https://pandas.pydata.org). Let's suppose you are novice in data science, then
+before submitting files to train ML models, you must be sure that you data does not have null values, if you have - [fill](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html) it with 0 or [median](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.median.html) values (the last is much more preferable). 
+Moreover you must get rid of dirty information, columns with data that definitely will not help in predicting results, but opposite (for example names of Titanic passengers if we want to predict will a passenger survive or no). And the last, you must get rid of categorical values, [get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html) is right choice for you.
 4. Structure (columns and values in columns) of a csv file must be the same in both cases: when we train models and when we predict new results.
 5. When models are trained you will see [accuracy](https://developers.google.com/machine-learning/crash-course/classification/accuracy), [precision, recall](https://developers.google.com/machine-learning/crash-course/classification/precision-and-recall) values. Comparing these values you may choose the best model for your case. Usually the higher score - the better, max value is one. 
-6. [Random forest](https://www.newgenapps.com/blogs/random-forest-analysis-in-ml-and-when-to-use-it-2/) and [K neighbours](https://towardsdatascience.com/knn-algorithm-what-when-why-how-41405c16c36f) ML models may not work in some cases. Neural nets (might be added later) are more universal. 
+6. [Random forest](https://www.newgenapps.com/blogs/random-forest-analysis-in-ml-and-when-to-use-it-2/) and [K-neighbours](https://towardsdatascience.com/knn-algorithm-what-when-why-how-41405c16c36f) ML models may not work in some cases. Neural nets (might be added later) are more universal. 
 
-
-The below is example of how to use the Mom's scientist app. You can repeat these steps using titanic.csv and titanic_predict.csv files in root directory. Steps with registering and authorization are omitted, let's suppose that you acquired an JWT token and placed it in your authorization headers (if you interact with backend manually). EDA and data cleaning steps are omitted too, this is another topic. 
-1. First you should upload a csv file using which models will be trained. Path is /moms_scientist/upload_csv. 
-2. Then we can list uploaded file, so we might be sure that our file is correctly uploaded. Path /moms_scientist/list_csv
+The below is an example of how to use the Mom's scientist app. You can repeat these steps using titanic.csv and titanic_predict.csv files in the root directory. Steps with registering and authorization are omitted, let's suppose that you acquired an JWT token and placed it in your authorization headers (if you interact with backend manually). EDA and data cleaning steps are omitted too, this is another topic. 
+1. First you should upload a csv file, using which, models will be trained. [Look here](https://divorce-ml.herokuapp.com/redoc#operation/upload_csv_moms_scientist_upload_csv_post). Notice that you can add your custom name for uploading file using query parameters (see name_of_csv parameter). 
+2. Then we can list uploaded file, so we might be sure that our file is correctly uploaded. [Here](https://divorce-ml.herokuapp.com/redoc#operation/list_files_moms_scientist_list_csv_get).
 
 
         [
@@ -73,24 +71,29 @@ The below is example of how to use the Mom's scientist app. You can repeat these
             }
         ]
 
-3. [Optional] Next one should be training step, but this step may take a while because training models is CPU bound process. So you may connect to a socket on my backend and receive information about training completion in real time. socker connection address is: ws://localhost:8123/event_channel , after connection you must submit number of the channel you want to listen, this number is user id of your account. So to connect to the socket we must submit an message to connected socket:
+3. [Optional] Next one should be training step, but this step may take a while, because training models is CPU bound process. So you may connect to a web socket on my backend and receive information about training completion in real time. Socket connection address is: **_ws://divorce-ml.herokuapp.com/event_channel_**
+ , after connection you must submit number of the channel you want to listen, this number is user id of your account. So to connect to the socket we must submit a message:
 
 
         {
             "channel": "1"
         }
 
-Where 1 - is user id. User id may be acquired here: /user/.
+Where 1 - is user id. User id may be acquired [here](https://divorce-ml.herokuapp.com/redoc#operation/get_logged_user_user__get).
 After submitting the message to the socket you will get information that connection has been successfully installed. 
-NOTE (!) you must submit JWT tokens in authorization headers as you would do it with usual HTTP requests. After connecting to the socket and triggering model training you will get messages in socket connection. It will looks like that:
+NOTE (!) you must submit JWT tokens in authorization headers as you would do it with usual HTTP requests. After connecting to the socket and triggering model training you will get messages in socket connection. It will look like that:
 
     Model k_neighbors was created for user_file_id 8
     Model random_forest_tree was created for user_file_id 8
     you are connected
     { "channel": "1" }
-    Connected to ws://localhost:8123/event_channel
+    Connected to ws://divorce-ml.herokuapp.com/event_channel
 
-4. To start a training you must submit name of target column (column that you want to predict in the future) and user_file_id from step 2.
+Actually the technology that allows broadcasting events to a channel quite difficult and worth mentioning. There is such library for FASTAPI that is called broadcaster, it allows multiprocess synchronizations, or synchronizations between containers. The key point is that it should not be matter to which backend instance client is connected, he must accept all his messages/events, no matter from which instance they are coming from.
+Usually, Redis is used for that purposes, but for current project I used Heroku as a platform for deploying, in Heroku if one wants to use Redis, credit card must be saved and accepted by Heroku, due to political reasons, unfortunately, this is not possible for me right now. But I have noticed that broadcasting library make use of LISTEN/NOTIFY functionality of PostgresSQL, but it did not work, without any reasons or errors.
+I plunged into source code and figured out my own working solution using PostgresSQL LISTEN/NOTIFY functionality. 
+
+4. To [start](https://divorce-ml.herokuapp.com/redoc#operation/train_models_moms_scientist_train_models_post) a training you must submit the name of target column (column that you want to predict in the future) and user_file_id from step 2.
 
 
         {
@@ -98,7 +101,7 @@ NOTE (!) you must submit JWT tokens in authorization headers as you would do it 
           "user_file_id": 8
         }
 
-5. When models are trained you can list them and chose the best. Path /moms_scientist/trained_models : 
+5. When models are trained you can [list](https://divorce-ml.herokuapp.com/redoc#operation/train_results_moms_scientist_trained_models_post) them and choose the best: 
 
 
         [
@@ -120,11 +123,12 @@ NOTE (!) you must submit JWT tokens in authorization headers as you would do it 
             }
         ]
 
-Here we can see that random forest three gave us the best results, this model can predict the future with 83% accuracy and that is not bad. 
+Here we can see that random forest three gave us the best results, this model can predict the future with 83% accuracy and that is not bad for the first try. 
 
-6. Prediction time. For this purpose we are going to use titanic_predict.csv. This csv file is the same as titanic.csv file with only two exceptions: first we do not have target column named target, because we want to predict target, isn't? 
-Second exception is that this csv consists of 5 first rows of titanic.csv file. This is made for simplicity purposes only, in real world prediction data must be different from that under which models was trained. 
-The key point is that model must predict outcomes of data that it has not seen before. So we submit our csv files in here: /moms_scientist/get_prediction/71 where 71 is model id from step 5. And prediction result is:
+6. Prediction time. For this purpose we are going to use titanic_predict.csv file from the root directory. This csv file is the same as titanic.csv file with only two exceptions: first we do not have target column (named target), because we want to predict target values, isn't? 
+Second exception is that this csv consists of 5 first rows of titanic.csv file. This is made for simplicity purposes only, in real world prediction data must be different from that under which models were trained. 
+The key point is that model must predict outcomes of data that it has not seen before. So we submit our csv files in [here](https://divorce-ml.herokuapp.com/redoc#operation/get_prediction_moms_scientist_get_prediction__model_id__post), where {model_id} will be 71 from step 5. 
+And prediction result is:
 
 
         {
@@ -152,8 +156,8 @@ The key point is that model must predict outcomes of data that it has not seen b
             ]
         }
 
-Actual results were 0, 1, 1, 1, 0 for first 5 rows, where 0 - not survived, 1 - survived. We can see that our prediction model made wrong outcome only once, in third case.
-We have got results in binary format, where first value in a group is probability of 0 (will die), the second is probability of 1 (will survive). The outcome may be different, it depends on the structure of target column and may be slightly difficult. 
+Actual results were 0, 1, 1, 1, 0 for first 5 rows, where 0 - not survived, 1 - survived. We can see that our prediction model made wrong outcome only once, in third case (but was close to giving right answer).
+We have got results in binary format, where first value in a group is probability of 0 (will die), the second is probability of 1 (will survive). The outcome may be different, it depends on the structure of target column and may be different. 
 For the first row our model predicts that with 86% chance this passenger will be survived. 
 
 
@@ -179,3 +183,7 @@ Useful alembic commands:
     alembic revision --autogenerate -m "Initial migrations"
     alembic upgrade heads 
     alembic revision -m "add a column to ..."
+
+Latest release note: it often happens that free amount of memory provided by Heroku is not enough for training models. Stay tuned to know when this project will be deployed on VPS with enough resources to run. 
+
+    Error R14 (Memory quota exceeded)
