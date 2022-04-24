@@ -67,7 +67,7 @@ class SkitLearnMLHandler:
 
     @staticmethod
     def get_predictions(file: UploadFile, trained_model) -> list:
-        csv = pd.read_csv(file.file, sep=';')
+        csv = pd.read_csv(file.file, sep=',')
         model = PickleModel.unpickle_python_object(path=trained_model.path)
         # optimize later
         prediction_list = model.predict_proba(csv).tolist()
