@@ -65,20 +65,20 @@ The below is example of how to use the Mom's scientist app. You can repeat these
 2. Then we can list uploaded file, so we might be sure that our file is correctly uploaded. Path /moms_scientist/list_csv
 
 
-    [
-        {
-            "id": 8,
-            "name": "titanic",
-            "created": "2022-04-24T10:09:38.711020+00:00"
-        }
-    ]
+        [
+            {
+                "id": 8,
+                "name": "titanic",
+                "created": "2022-04-24T10:09:38.711020+00:00"
+            }
+        ]
 
 3. [Optional] Next one should be training step, but this step may take a while because training models is CPU bound process. So you may connect to a socket on my backend and receive information about training completion in real time. socker connection address is: ws://localhost:8123/event_channel , after connection you must submit number of the channel you want to listen, this number is user id of your account. So to connect to the socket we must submit an message to connected socket:
 
 
-    {
-        "channel": "1"
-    }
+        {
+            "channel": "1"
+        }
 
 Where 1 - is user id. User id may be acquired here: /user/.
 After submitting the message to the socket you will get information that connection has been successfully installed. 
@@ -93,32 +93,32 @@ NOTE (!) you must submit JWT tokens in authorization headers as you would do it 
 4. To start a training you must submit name of target column (column that you want to predict in the future) and user_file_id from step 2.
 
 
-    {
-      "target_column": "target",
-      "user_file_id": 8
-    }
+        {
+          "target_column": "target",
+          "user_file_id": 8
+        }
 
 5. When models are trained you can list them and chose the best. Path /moms_scientist/trained_models : 
 
 
-    [
-        {
-            "id": 71,
-            "name": "random_forest_tree",
-            "accuracy": 0.8305084745762712,
-            "precision": 0.85,
-            "recall": 0.7083333333333334,
-            "user_file_id": 8
-        },
-        {
-            "id": 72,
-            "name": "k_neighbors",
-            "accuracy": 0.6711864406779661,
-            "precision": 0.6949152542372882,
-            "recall": 0.3416666666666667,
-            "user_file_id": 8
-        }
-    ]
+        [
+            {
+                "id": 71,
+                "name": "random_forest_tree",
+                "accuracy": 0.8305084745762712,
+                "precision": 0.85,
+                "recall": 0.7083333333333334,
+                "user_file_id": 8
+            },
+            {
+                "id": 72,
+                "name": "k_neighbors",
+                "accuracy": 0.6711864406779661,
+                "precision": 0.6949152542372882,
+                "recall": 0.3416666666666667,
+                "user_file_id": 8
+            }
+        ]
 
 Here we can see that random forest three gave us the best results, this model can predict the future with 83% accuracy and that is not bad. 
 
@@ -127,30 +127,30 @@ Second exception is that this csv consists of 5 first rows of titanic.csv file. 
 The key point is that model must predict outcomes of data that it has not seen before. So we submit our csv files in here: /moms_scientist/get_prediction/71 where 71 is model id from step 5. And prediction result is:
 
 
-    {
-        "predictions": [
-            [
-                0.8648484848484849,
-                0.13515151515151516
-            ],
-            [
-                0.06666666666666667,
-                0.9333333333333332
-            ],
-            [
-                0.5763636363636364,
-                0.4236363636363637
-            ],
-            [
-                0.06666666666666667,
-                0.9333333333333332
-            ],
-            [
-                0.8365151515151515,
-                0.16348484848484848
+        {
+            "predictions": [
+                [
+                    0.8648484848484849,
+                    0.13515151515151516
+                ],
+                [
+                    0.06666666666666667,
+                    0.9333333333333332
+                ],
+                [
+                    0.5763636363636364,
+                    0.4236363636363637
+                ],
+                [
+                    0.06666666666666667,
+                    0.9333333333333332
+                ],
+                [
+                    0.8365151515151515,
+                    0.16348484848484848
+                ]
             ]
-        ]
-    }
+        }
 
 Actual results were 0, 1, 1, 1, 0 for first 5 rows, where 0 - not survived, 1 - survived. We can see that our prediction model made wrong outcome only once, in third case.
 We have got results in binary format, where first value in a group is probability of 0 (will die), the second is probability of 1 (will survive). The outcome may be different, it depends on the structure of target column and may be slightly difficult. 

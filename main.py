@@ -1,7 +1,3 @@
-import asyncio
-
-import aiohttp
-
 import uvicorn
 from fastapi import FastAPI, status, Depends
 from sqlalchemy.orm import Session
