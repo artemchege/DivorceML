@@ -1,0 +1,771 @@
+{
+	"info": {
+		"_postman_id": "1db98d49-d721-4476-be45-01a62f7a1445",
+		"name": "MOMS scientist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15001218"
+	},
+	"item": [
+		{
+			"name": "divorce",
+			"item": [
+				{
+					"name": "3. predict + token from step 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hate_subject\": 0,\n  \"happy\": 0,\n  \"dreams\": 0,\n  \"freedom_value\": 0,\n  \"likes\": 0,\n  \"calm_breaks\": 0,\n  \"harmony\": 0,\n  \"roles\": 0,\n  \"inner_world\": 0,\n  \"current_stress\": 0,\n  \"friends_social\": 0,\n  \"contact\": 0,\n  \"insult\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/predict_divorce/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"predict_divorce",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "3. predict + token from step 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"hate_subject\": 1,\n  \"happy\": 2,\n  \"dreams\": 3,\n  \"freedom_value\": 4,\n  \"likes\": 1,\n  \"calm_breaks\": 1,\n  \"harmony\": 1,\n  \"roles\": 2,\n  \"inner_world\": 2,\n  \"current_stress\": 3,\n  \"friends_social\": 3,\n  \"contact\": 2,\n  \"insult\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5001/predict_divorce/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"predict_divorce",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 25 Jan 2023 08:39:59 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "21"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"prediction\": \"0.68\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "mom scientist",
+			"item": [
+				{
+					"name": "6. look at trained model",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJ0ZW0iLCJpZCI6MSwiZXhwIjoxNjc1MjQwMDc3fQ.HruCnNfX0D6zjXLCd5XfDkidGIT2lp_Bbd0b78Om5o0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_file_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/moms_scientist/trained_models",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"moms_scientist",
+								"trained_models"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "6. look at trained model",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_file_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5001/moms_scientist/trained_models",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"moms_scientist",
+										"trained_models"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 25 Jan 2023 08:56:32 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "266"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"random_forest_tree\",\n        \"accuracy\": 0.8067796610169492,\n        \"precision\": 0.8387096774193549,\n        \"recall\": 0.65,\n        \"user_file_id\": 1\n    },\n    {\n        \"id\": 2,\n        \"name\": \"k_neighbors\",\n        \"accuracy\": 0.6711864406779661,\n        \"precision\": 0.6949152542372882,\n        \"recall\": 0.3416666666666667,\n        \"user_file_id\": 1\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "3. submit file titanic.csv in form-data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJ0ZW0iLCJpZCI6MSwiZXhwIjoxNjc1MjQwMDc3fQ.HruCnNfX0D6zjXLCd5XfDkidGIT2lp_Bbd0b78Om5o0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/artemastahov/Documents/PythonProjects/FastApiML/titanic.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/moms_scientist/upload_csv?name_of_csv=titanic",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"moms_scientist",
+								"upload_csv"
+							],
+							"query": [
+								{
+									"key": "name_of_csv",
+									"value": "titanic"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "3. submit file titanic.csv in form-data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/Users/artemastahov/Documents/PythonProjects/FastApiML/titanic.csv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5001/moms_scientist/upload_csv?name_of_csv=titanic",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"moms_scientist",
+										"upload_csv"
+									],
+									"query": [
+										{
+											"key": "name_of_csv",
+											"value": "titanic"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 25 Jan 2023 08:51:46 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "16"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "4. list csv files",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJ0ZW0iLCJpZCI6MSwiZXhwIjoxNjc1MjQwMDc3fQ.HruCnNfX0D6zjXLCd5XfDkidGIT2lp_Bbd0b78Om5o0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5001/moms_scientist/list_csv",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"moms_scientist",
+								"list_csv"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "4. list csv files",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:5001/moms_scientist/list_csv",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"moms_scientist",
+										"list_csv"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 25 Jan 2023 08:53:22 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "72"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"titanic\",\n        \"created\": \"2023-01-25T08:51:46.497684+00:00\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "5. train model",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJ0ZW0iLCJpZCI6MSwiZXhwIjoxNjc1MjQwMDc3fQ.HruCnNfX0D6zjXLCd5XfDkidGIT2lp_Bbd0b78Om5o0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"target_column\": \"target\",\n  \"user_file_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/moms_scientist/train_models",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"moms_scientist",
+								"train_models"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "5. train model",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"target_column\": \"target\",\n  \"user_file_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5001/moms_scientist/train_models",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"moms_scientist",
+										"train_models"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 25 Jan 2023 08:54:53 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "16"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "7. predcit new results",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJ0ZW0iLCJpZCI6MSwiZXhwIjoxNjc1MjQwMDc3fQ.HruCnNfX0D6zjXLCd5XfDkidGIT2lp_Bbd0b78Om5o0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/artemastahov/Documents/PythonProjects/FastApiML/titanic_predict.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/moms_scientist/get_prediction/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"moms_scientist",
+								"get_prediction",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "7. predcit new results",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/Users/artemastahov/Documents/PythonProjects/FastApiML/titanic_predict.csv"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5001/moms_scientist/get_prediction/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5001",
+									"path": [
+										"moms_scientist",
+										"get_prediction",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 25 Jan 2023 08:58:36 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "219"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"predictions\": [\n        [\n            0.7641821182591646,\n            0.2358178817408354\n        ],\n        [\n            0.08736874236874236,\n            0.9126312576312576\n        ],\n        [\n            0.4496556867127219,\n            0.5503443132872781\n        ],\n        [\n            0.07541541791541792,\n            0.924584582084582\n        ],\n        [\n            0.8107363795254674,\n            0.18926362047453263\n        ]\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "1. create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"artem\",\n  \"email\": \"artem@artem.com\",\n  \"password\": \"artem\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5001/user/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "1. create user",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"artem\",\n  \"email\": \"artem@artem.com\",\n  \"password\": \"artem\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 25 Jan 2023 08:27:53 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "49"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"name\": \"artem\",\n    \"email\": \"artem@artem.com\"\n}"
+				}
+			]
+		},
+		{
+			"name": "2. get token here",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"artem@artem.com\",\n  \"password\": \"artem\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5001/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5001",
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2. get token here",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"artem@artem.com\",\n  \"password\": \"artem\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5001/login/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5001",
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 25 Jan 2023 08:27:53 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "176"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXJ0ZW0iLCJpZCI6MSwiZXhwIjoxNjc1MjQwMDc3fQ.HruCnNfX0D6zjXLCd5XfDkidGIT2lp_Bbd0b78Om5o0\",\n    \"token_type\": \"bearer\"\n}"
+				}
+			]
+		}
+	]
+}

@@ -9,7 +9,7 @@ from jose import JWTError, jwt
 from schemas import TokenData
 
 # JWT settings
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'bf7234b66257ea32f286db2d64de00761b89667a126f25e509a180237aaa54cf')
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")

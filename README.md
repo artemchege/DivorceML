@@ -1,3 +1,10 @@
+# How to srart and use: 
+
+1. docker-compose up -d --build  
+2. docker exec fastapiml_web_1 alembic upgrade heads
+3. For further guidance export postman collections: MOMS scientist.postman_collection.json in root directory in this project. There are collection with numbered steps with examples.
+
+NOTE (!): Doc is available here: http://127.0.0.1:5001/redoc/
 
 # This backend consists of two main parts that live in separate app folders. 
 

@@ -13,7 +13,8 @@ POSTGRES_DB = os.environ.get('POSTGRES_DB', 'fastapi')
 
 # Async setup
 ASYNC_SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}" \
-                          f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+                          f"@db:{POSTGRES_PORT}/{POSTGRES_DB}"
+
 
 async_engine = create_async_engine(ASYNC_SQLALCHEMY_DATABASE_URL, future=True, echo=True)
 async_session_local = sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
@@ -21,11 +22,11 @@ async_session_local = sessionmaker(async_engine, expire_on_commit=False, class_=
 
 # Sync setup
 SQLALCHEMY_DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}" \
-                          f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+                          f"@db:{POSTGRES_PORT}/{POSTGRES_DB}"
 sync_engine = create_engine(SQLALCHEMY_DATABASE_URL, )
 sync_session_local = sessionmaker(bind=sync_engine, autocommit=False, autoflush=False,)
 
-dsn = f'dbname = {POSTGRES_DB} user = {POSTGRES_USER} password = {POSTGRES_PASSWORD} host = {POSTGRES_HOST}'
+dsn = f'dbname = {POSTGRES_DB} user = {POSTGRES_USER} password = {POSTGRES_PASSWORD} host = db'
 
 Base = declarative_base()
 
